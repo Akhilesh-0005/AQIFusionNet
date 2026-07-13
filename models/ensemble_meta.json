@@ -1,0 +1,48 @@
+{
+  "model_name": "AQIFusionNet Ensemble",
+  "version": "1.0.4",
+  "training_metadata": {
+    "dataset_range": "2015-01-01 to 2020-07-01",
+    "training_samples": 2427,
+    "features_used": [
+      "PM2.5", "PM10", "NO", "NO2", "NOx", "NH3", "CO", "SO2", "O3",
+      "Benzene", "Toluene", "temp_mean", "rh_mean", "wind_speed"
+    ],
+    "target": "AQI",
+    "epochs": 150,
+    "batch_size": 32,
+    "val_split": 0.2,
+    "evaluation_metrics": {
+      "RMSE": 12.48,
+      "MAE": 8.92,
+      "R2_Score": 0.947
+    }
+  },
+  "architecture": {
+    "CNN_Layer": {
+      "filters": 64,
+      "kernel_size": 3,
+      "activation": "relu",
+      "purpose": "Spatial Feature Extraction & Multi-variable Correlation"
+    },
+    "LSTM_Layer": {
+      "units": 128,
+      "activation": "tanh",
+      "return_sequences": true,
+      "purpose": "Long-term Temporal Dependency Capture"
+    },
+    "GRU_Layer": {
+      "units": 64,
+      "activation": "tanh",
+      "return_sequences": false,
+      "purpose": "Short-term Sequential Learning & Efficiency Improvement"
+    },
+    "XGBoost_Refiner": {
+      "n_estimators": 200,
+      "max_depth": 6,
+      "learning_rate": 0.05,
+      "subsample": 0.8,
+      "purpose": "Non-linear Correction & Final Refined Regressor"
+    }
+  }
+}
